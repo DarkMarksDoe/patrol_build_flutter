@@ -2,16 +2,31 @@ package main
 
 import (
 	install "patrol_install/steps/install"
+	validate "patrol_install/steps/validate"
 	print "patrol_install/utils/print"
 )
 
 func main() {
-	err := install.Run(&install.PatrolInstaller{})
-	if err != nil {
+	cliVersion, installError := install.Run(&install.InstallerRunner{})
+	if installError != nil {
 		print.Error("❌ Setup failed")
-		print.Error(err.Error())
+		print.Error(installError.Error())
 		print.Error("Please check the logs for more details.")
+	} else {
+		print.Success("✅ Setup completed successfully")
 	}
-	print.Success("✅ Setup completed successfully")
+
+	validatorParams := validate.ValidatorRunParams{
+		Runner:     &validate.ValidatorRunner{},
+		CliVersion: cliVersion,
+	}
+
+	validationError := validate.Run(validatorParams)
+	if validationError != nil {
+		print.Error("❌ Validation failed")
+		print.Error(validationError.Error())
+		print.Error("Please check the logs for more details.")
+		return
+	}
 
 }
