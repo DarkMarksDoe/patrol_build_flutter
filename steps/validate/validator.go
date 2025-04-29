@@ -1,8 +1,11 @@
 package validate
 
 import (
+	"fmt"
+
 	v "github.com/Masterminds/semver/v3"
 
+	versions "patrol_install/steps/validate/validate_versions"
 	"patrol_install/utils/print"
 )
 
@@ -21,13 +24,13 @@ func Run(params ValidatorRunParams) error {
 
 	print.StepIniciated("--- Getting Flutter Version ---")
 
-	version, err := runner.GetVersion()
+	flutterVersion, err := runner.GetVersion()
 	if err != nil {
 		print.Warning("❌ Failed to get Flutter version")
 		print.Error(err.Error())
 	}
 
-	print.StepCompleted("✅ Flutter Version: " + version.String() + "\n")
+	print.StepCompleted("✅ Flutter Version: " + flutterVersion.String() + "\n")
 
 	print.StepIniciated("--- Getting Patrol Version ---")
 	patrolVersion, patrolErr := runner.GetPatrolVersion()
@@ -37,7 +40,23 @@ func Run(params ValidatorRunParams) error {
 		print.Error(patrolErr.Error())
 	}
 
-	print.StepCompleted("✅ Patrol Version: " + patrolVersion.String())
+	print.StepCompleted("✅ Patrol Version: " + patrolVersion.String() + "\n")
+
+	validatorParams := versions.ValidareRunParams{
+		FlutterVersion: flutterVersion,
+		CliVersion:     params.CliVersion,
+		PatrolVersion:  patrolVersion,
+	}
+
+	print.StepIniciated("--- Checking Compatibility ---")
+	validationError := versions.CheckCompatibility(validatorParams)
+	if validationError != nil {
+		print.Warning("❌ Failed to check compatibility")
+		print.Error(validationError.Error())
+	}
+
+	message := fmt.Sprintf("✅ Flutter %s, Patrol CLI %s and Patrol %s are compatible", flutterVersion.String(), params.CliVersion.String(), patrolVersion.String())
+	print.StepCompleted(message)
 
 	return nil
 }
