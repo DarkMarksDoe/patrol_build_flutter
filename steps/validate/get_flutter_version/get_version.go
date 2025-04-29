@@ -11,16 +11,16 @@ import (
 	"patrol_install/utils/exec"
 )
 
-var patrolDoctor = commands.FlutterPubDependencies
+var flutterDoctor = commands.FlutterPubDependencies
 
 func GetVersion() (*v.Version, error) {
-	output, err := exec.Command(patrolDoctor)
+	output, err := exec.Command(flutterDoctor)
 	if err != nil {
 		return nil, err
 	}
 
 	// Use regex to extract the version
-	re := regex.Version("Patrol CLI Version")
+	re := regex.Version("Flutter SDK")
 	match := re.FindStringSubmatch(output)
 	if len(match) > 1 {
 		parsedVersion, err := v.NewVersion(cleanVersion(match[1]))

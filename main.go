@@ -13,7 +13,7 @@ func main() {
 		print.Error(installError.Error())
 		print.Error("Please check the logs for more details.")
 	} else {
-		print.Success("✅ Setup completed successfully")
+		print.Success("✅ Installing CLI Completed Successfully")
 	}
 
 	validatorParams := validate.ValidatorRunParams{

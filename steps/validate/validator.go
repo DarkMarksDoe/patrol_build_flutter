@@ -8,6 +8,7 @@ import (
 
 type Validator interface {
 	GetVersion() (*v.Version, error)
+	GetPatrolVersion() (*v.Version, error)
 }
 
 type ValidatorRunParams struct {
@@ -17,9 +18,8 @@ type ValidatorRunParams struct {
 
 func Run(params ValidatorRunParams) error {
 	runner := params.Runner
-	cliVersion := params.CliVersion
 
-	print.StepIniciated("--- Getting Flutter Version ---\n")
+	print.StepIniciated("--- Getting Flutter Version ---")
 
 	version, err := runner.GetVersion()
 	if err != nil {
@@ -27,6 +27,17 @@ func Run(params ValidatorRunParams) error {
 		print.Error(err.Error())
 	}
 
-	print.StepCompleted("✅ Flutter Version: " + version.String())
+	print.StepCompleted("✅ Flutter Version: " + version.String() + "\n")
+
+	print.StepIniciated("--- Getting Patrol Version ---")
+	patrolVersion, patrolErr := runner.GetPatrolVersion()
+
+	if patrolErr != nil {
+		print.Warning("❌ Failed to get Patrol version")
+		print.Error(patrolErr.Error())
+	}
+
+	print.StepCompleted("✅ Patrol Version: " + patrolVersion.String())
+
 	return nil
 }

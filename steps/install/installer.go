@@ -12,7 +12,7 @@ type Installer interface {
 }
 
 func Run(installer Installer) (*v.Version, error) {
-	print.StepIniciated("--- Checking if Patrol CLI is already installed ---\n")
+	print.StepIniciated("--- Checking if Patrol CLI is already installed ---")
 
 	version, err := installer.GetVersion()
 	if err != nil {
@@ -28,10 +28,10 @@ func Run(installer Installer) (*v.Version, error) {
 			return nil, err
 		}
 
-		print.StepCompleted("✅ PATROL CLI installed successfully. Version: " + version.String())
+		print.StepCompleted("✅ PATROL CLI installed successfully. Version: " + version.String() + "\n")
 		return version, nil
 	}
 
-	print.StepCompleted("✅ Tool already installed. Version: " + version.String())
+	print.StepCompleted("✅ Tool already installed. Version: " + version.String() + "\n")
 	return version, nil
 }
