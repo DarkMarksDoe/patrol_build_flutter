@@ -26,7 +26,7 @@
 *.dylib
 
 # Binaries compiled by Go
-build/
+.build/
 
 # Test binary, built with `go test -c`
 *.test

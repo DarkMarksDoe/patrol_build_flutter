@@ -1,6 +1,7 @@
 package main
 
 import (
+	build "patrol_install/steps/build"
 	install "patrol_install/steps/install"
 	validate "patrol_install/steps/validate"
 	print "patrol_install/utils/print"
@@ -23,6 +24,14 @@ func main() {
 
 	validationError := validate.Run(validatorParams)
 	if validationError != nil {
+		print.Error("❌ Validation failed")
+		print.Error(validationError.Error())
+		print.Error("Please check the logs for more details.")
+		return
+	}
+
+	buildError := build.Run(&build.BuilderRunner{})
+	if buildError != nil {
 		print.Error("❌ Validation failed")
 		print.Error(validationError.Error())
 		print.Error("Please check the logs for more details.")
