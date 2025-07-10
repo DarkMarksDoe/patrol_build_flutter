@@ -48,3 +48,8 @@ vendor/
 # Workspace
 go.work
 go.work.sum
+
+# Bitrise 
+.bitrise*
+README.md.backup
+_tmp/
