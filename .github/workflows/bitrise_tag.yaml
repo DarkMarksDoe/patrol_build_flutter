@@ -1,0 +1,36 @@
+# This workflow will tag the build using bitrise.yaml
+name: Tag from Bitrise Version
+
+on:
+  workflow_dispatch: # Manual trigger only
+
+jobs:
+  tag:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write 
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Extract version from bitrise.yml and tag
+      run: |
+        VERSION=$(grep BITRISE_STEP_VERSION bitrise.yml | sed 's/.*: "\(.*\)"/\1/')
+        echo "📦 Extracted version: $VERSION"
+        
+        TAG="v$VERSION"
+
+        # Check if tag already exists remotely
+        if git ls-remote --tags origin | grep -q "refs/tags/$TAG"; then
+          echo "❌ Tag $TAG already exists"
+          exit 1
+        fi
+
+        git config user.name "github-actions"
+        git config user.email "github-actions@github.com"
+
+        git tag "$TAG"
+        git push origin "$TAG"
+
+        echo "✅ Created and pushed tag $TAG"
