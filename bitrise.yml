@@ -7,6 +7,14 @@ app:
   - BITRISE_STEP_VERSION: "0.0.1"
   - BITRISE_STEP_GIT_CLONE_URL: https://github.com/gpac-Tech-Hub/patrol_build_flutter.git
   - MY_STEPLIB_REPO_FORK_GIT_URL: $MY_STEPLIB_REPO_FORK_GIT_URL
+  - FLUTTER_BUILD_PATROL_PLATFORM: both
+  - FLUTTER_BUILD_PATROL_VERSION: null
+  - FLUTTER_BUILD_PATROL_TARGET: null
+  - FLUTTER_BUILD_PATROL_BUILD_TYPE: release
+  - FLUTTER_BUILD_PATROL_TAGS: null
+  - FLUTTER_BUILD_PATROL_EXCLUDED_TAGS: null
+  - FLUTTER_BUILD_PATROL_IS_VERBOSE: true
+  - FLUTTER_BUILD_PATROL_IS_COVERED: false
 
 workflows:
   test:
@@ -15,8 +23,14 @@ workflows:
         inputs:
         - content: |
             #!/bin/bash
-            echo "Just an example 'secrets' print."
-            echo "The value of 'A_SECRET_PARAM' is: $A_SECRET_PARAM"
+            echo "The value of the FLUTTER_BUILD_PATROL_PLATFORM environment is: $FLUTTER_BUILD_PATROL_PLATFORM"
+            echo "The value of the FLUTTER_BUILD_PATROL_VERSION environment is: $FLUTTER_BUILD_PATROL_VERSION "
+            echo "The value of the FLUTTER_BUILD_PATROL_TARGET environment is: $FLUTTER_BUILD_PATROL_TARGET"
+            echo "The value of the FLUTTER_BUILD_PATROL_BUILD_TYPE environment is: $FLUTTER_BUILD_PATROL_BUILD_TYPE"
+            echo "The value of the FLUTTER_BUILD_PATROL_TAGS environment is: $FLUTTER_BUILD_PATROL_TAGS"
+            echo "The value of the FLUTTER_BUILD_PATROL_EXCLUDED_TAGS environment is: $FLUTTER_BUILD_PATROL_EXCLUDED_TAGS"
+            echo "The value of the FLUTTER_BUILD_PATROL_IS_VERBOSE environment is: $FLUTTER_BUILD_PATROL_IS_VERBOSE"
+            echo "The value of the FLUTTER_BUILD_PATROL_IS_COVERED environment is: $FLUTTER_BUILD_PATROL_IS_COVERED"
     - change-workdir:
         title: Switch working dir to test / _tmp dir
         description: |-
