@@ -1,8 +1,10 @@
 package install_cli_tool
 
 import (
+	"os"
+
 	"patrol_install/commands"
-	env "patrol_install/utils/environment"
+	constants "patrol_install/steps/build/constants"
 	"patrol_install/utils/exec"
 	print "patrol_install/utils/print"
 )
@@ -11,7 +13,7 @@ var patrolInstall = commands.PatrolInstall
 
 func Install() (string, error) {
 
-	customVersion := env.GetEnvironmentValue("CUSTOM_PATROL_VERSION")
+	customVersion := os.Getenv(constants.Version)
 
 	if customVersion == "" {
 		print.Warning("Version was not provided. Using the latest version.")
