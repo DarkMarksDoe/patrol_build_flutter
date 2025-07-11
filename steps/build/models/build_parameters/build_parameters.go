@@ -83,7 +83,7 @@ func (bp *BuildParameters) Command() []string {
 		}
 	}
 
-	var command string = "patrol build " + bp.Platform + " " + strings.Join(args, " ")
+	var command = "patrol build " + bp.Platform + " " + strings.Join(args, " ")
 
 	return []string{
 		command,
