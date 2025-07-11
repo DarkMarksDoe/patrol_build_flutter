@@ -7,7 +7,7 @@ import (
 
 // BuildParameters holds validated and formatted build configuration.
 type BuildParameters struct {
-	Targets      string
+	Target       string
 	Platform     string
 	BuildType    string
 	Tags         string
@@ -22,7 +22,7 @@ func NewBuildParameters(envMap map[string]string) (*BuildParameters, error) {
 
 	requiredFields := map[string]func(*BuildParameters, string) error{
 		"platform":  SetPlatform,
-		"targets":   SetTargets,
+		"target":    SetTarget,
 		"buildType": SetBuildType,
 	}
 
@@ -57,12 +57,11 @@ func NewBuildParameters(envMap map[string]string) (*BuildParameters, error) {
 }
 
 // Command constructs the final CLI command string based on the populated BuildParameters fields.
-func (bp *BuildParameters) Command() string {
+func (bp *BuildParameters) Command() []string {
 	var args []string
 
-	args = append(args, "--platform", bp.Platform)
-	args = append(args, "--targets", bp.Targets)
-	args = append(args, "--buildType", bp.BuildType)
+	args = append(args, "--target", bp.Target)
+	args = append(args, "--"+bp.BuildType)
 
 	if bp.Tags != "" {
 		args = append(args, "--tags", bp.Tags)
@@ -77,5 +76,16 @@ func (bp *BuildParameters) Command() string {
 		args = append(args, bp.IsCoverage)
 	}
 
-	return "patrol build " + strings.Join(args, " ")
+	if bp.Platform == "both" {
+		return []string{
+			"patrol build android " + strings.Join(args, " "),
+			"patrol build ios " + strings.Join(args, " "),
+		}
+	}
+
+	var command = "patrol build " + bp.Platform + " " + strings.Join(args, " ")
+
+	return []string{
+		command,
+	}
 }

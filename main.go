@@ -32,7 +32,7 @@ func main() {
 
 	buildError := build.Run(&build.BuilderRunner{})
 	if buildError != nil {
-		print.Error("❌ Validation failed")
+		print.Error("❌ Build failed")
 		print.Error(buildError.Error())
 		print.Error("Please check the logs for more details.")
 		return
