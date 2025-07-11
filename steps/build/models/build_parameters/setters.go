@@ -8,31 +8,35 @@ import (
 
 // SetPlatform sets the build platform. Accepted: "android", "iOS".
 func SetPlatform(bp *BuildParameters, value string) error {
-	switch strings.ToLower(value) {
+	var platform = strings.ToLower(value)
+	switch platform {
 	case "android", "ios":
+		bp.Platform = platform
+		return nil
+	case "both":
 		bp.Platform = value
 		return nil
 	default:
-		return errors.New("invalid platform: expected 'android' or 'iOS'")
+		return errors.New("invalid platform: expected 'android', 'iOS' or 'both'")
 	}
 }
 
-// SetTargets sets the target list. Required and must not be empty.
-func SetTargets(bp *BuildParameters, value string) error {
+// SetTarget sets the target. Required and must not be empty.
+func SetTarget(bp *BuildParameters, value string) error {
 	if strings.TrimSpace(value) == "" {
-		return errors.New("targets cannot be empty")
+		return errors.New("target cannot be empty")
 	}
-	bp.Targets = value
+	bp.Target = value
 	return nil
 }
 
 func SetBuildType(bp *BuildParameters, value string) error {
 	switch value {
-	case "emulator", "physical":
+	case "release", "simulator":
 		bp.BuildType = value
 		return nil
 	default:
-		return errors.New("invalid build type: expected 'emulator' or 'physical'")
+		return errors.New("invalid build type: expected 'release' or 'simulator'")
 	}
 }
 

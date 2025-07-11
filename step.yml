@@ -57,7 +57,7 @@ inputs:
     is_required: true
     value_options:
     - both
-    - ios
+    - iOS
     - android
 - build_type: $FLUTTER_BUILD_PATROL_BUILD_TYPE
   opts:
@@ -69,8 +69,8 @@ inputs:
       You can specify `debug` or `release` as the build type.
     is_required: false
     value_options:
-    - debug
     - release
+    - simulator
 - tags: $FLUTTER_BUILD_PATROL_TAGS
   opts:
     title: Tags
@@ -94,8 +94,8 @@ inputs:
     title: Verbose
     summary: Enable verbose output
     description: |-
-      If you want to enable verbose output for the step, you can set this input to `true`.
-      If you leave this input empty, the step will not enable verbose output.
+      If you want to disable verbose output for the step, you can set this input to `false`.
+      If you leave this input empty, the step will enable verbose output.
       Verbose output can help you debug issues with the step.
       It will print additional information about the step's execution.
     is_required: false

@@ -9,11 +9,12 @@ import (
 
 type BuilderRunner struct{}
 
-func (p *BuilderRunner) BuildParametersFromEnv() (string, error) {
+func (p *BuilderRunner) BuildParametersFromEnv() ([]string, error) {
 	command, err := getEnv.BuildParametersFromEnv()
 	if err != nil {
 		print.Error(fmt.Sprintf("Build failed: %s", err))
-		return "", err
+		return []string{}, err
 	}
+
 	return command.Command(), nil
 }
