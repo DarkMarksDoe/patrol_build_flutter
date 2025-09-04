@@ -12,7 +12,7 @@ func Run(exporter Exporter) error {
 	print.StepIniciated("--- Getting Patrol builds ---")
 
 	if err := exporter.FindAndExportBuilds(); err != nil {
-		// Handle error
+		return err
 	}
 
 	return nil
